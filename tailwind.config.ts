@@ -22,6 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          soft: "hsl(var(--primary-soft))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -46,6 +47,20 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        // Baby profile colors
+        baby: {
+          1: "hsl(var(--baby-1))",
+          2: "hsl(var(--baby-2))",
+          3: "hsl(var(--baby-3))",
+          4: "hsl(var(--baby-4))",
+          5: "hsl(var(--baby-5))",
+        },
+        // Meal colors
+        meal: {
+          breakfast: "hsl(var(--breakfast))",
+          lunch: "hsl(var(--lunch))",
+          dinner: "hsl(var(--dinner))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

@@ -2,41 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Baby Food Tracker Design System - All colors, gradients, fonts, etc defined here. 
+All colors MUST be HSL for proper theming.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Baby-friendly base colors */
+    --background: 0 0% 99%;
+    --foreground: 215 25% 27%;
 
+    /* Card system */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 25% 27%;
 
+    /* Popover system */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 25% 27%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Soft mint green */
+    --primary: 155 41% 49%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 155 41% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft coral */
+    --secondary: 15 86% 85%;
+    --secondary-foreground: 215 25% 27%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones */
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Lavender */
+    --accent: 269 40% 88%;
+    --accent-foreground: 215 25% 27%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Border and input */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 155 41% 49%;
 
-    --radius: 0.5rem;
+    /* Baby profile colors */
+    --baby-1: 155 41% 49%;    /* Mint green */
+    --baby-2: 340 82% 75%;    /* Soft pink */
+    --baby-3: 220 100% 80%;   /* Soft blue */
+    --baby-4: 45 93% 76%;     /* Soft yellow */
+    --baby-5: 269 40% 78%;    /* Lavender */
+
+    /* Meal colors */
+    --breakfast: 45 93% 76%;  /* Morning yellow */
+    --lunch: 155 41% 65%;     /* Midday green */
+    --dinner: 269 40% 78%;    /* Evening purple */
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(155 41% 49%), hsl(155 41% 65%));
+    --gradient-soft: linear-gradient(180deg, hsl(0 0% 100%), hsl(155 41% 98%));
+    --gradient-baby: linear-gradient(45deg, hsl(155 41% 95%), hsl(340 82% 95%));
+
+    /* Shadows */
+    --shadow-soft: 0 2px 8px -2px hsl(155 41% 49% / 0.1);
+    --shadow-card: 0 4px 12px -4px hsl(215 25% 27% / 0.1);
+    --shadow-button: 0 2px 4px -1px hsl(155 41% 49% / 0.2);
+
+    /* Radius */
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +133,64 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Custom animations */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  /* Custom utility classes */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-button {
+    box-shadow: var(--shadow-button);
+  }
+  
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-soft {
+    background: var(--gradient-soft);
+  }
+  
+  .gradient-baby {
+    background: var(--gradient-baby);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
