@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Calendar, BarChart3, Baby, Settings } from "lucide-react";
+import { Calendar, BarChart3, Baby, Settings, LogOut, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 interface NavigationProps {
   currentView: "calendar" | "analytics" | "babies" | "settings";
@@ -7,6 +9,25 @@ interface NavigationProps {
 }
 
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const navItems = [
     { id: "calendar" as const, label: "Calendar", icon: Calendar },
     { id: "analytics" as const, label: "Analytics", icon: BarChart3 },
@@ -15,23 +36,40 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
   ];
 
   return (
-    <div className="flex justify-center p-4 bg-background border-b border-border">
-      <div className="flex gap-2">
-        {navItems.map(item => {
-          const Icon = item.icon;
-          return (
+    <nav className="glass-panel border-soft p-4 m-4 rounded-lg">
+      <div className="flex justify-between items-center">
+        <div className="flex space-x-2">
+          {navItems.map((item) => (
             <Button
               key={item.id}
               variant={currentView === item.id ? "default" : "ghost"}
               onClick={() => onViewChange(item.id)}
-              className="flex items-center gap-2"
+              className="flex items-center space-x-2 transition-all duration-200"
             >
-              <Icon className="h-4 w-4" />
-              {item.label}
+              <item.icon className="h-4 w-4" />
+              <span className="hidden sm:inline">{item.label}</span>
             </Button>
-          );
-        })}
+          ))}
+        </div>
+        
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <User className="h-4 w-4" />
+            <span className="hidden sm:inline">
+              {user?.email || user?.phone || 'User'}
+            </span>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleSignOut}
+            className="flex items-center space-x-2"
+          >
+            <LogOut className="h-4 w-4" />
+            <span className="hidden sm:inline">Sign Out</span>
+          </Button>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 }

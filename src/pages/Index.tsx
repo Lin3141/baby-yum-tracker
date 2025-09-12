@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Calendar } from "@/components/Calendar";
 import { Analytics } from "@/components/Analytics";
 import { Navigation } from "@/components/Navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
 
 const mockBabies = [
   { id: "1", name: "Emma", color: "baby-1" },
@@ -10,6 +13,41 @@ const mockBabies = [
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<"calendar" | "analytics" | "babies" | "settings">("calendar");
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/auth");
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen gradient-soft flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen gradient-soft flex items-center justify-center p-6">
+        <div className="text-center space-y-6 max-w-md mx-auto">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold gradient-text">Baby Yum Tracker</h1>
+            <p className="text-muted-foreground">Track your baby's solid food journey with ease</p>
+          </div>
+          <Button onClick={() => navigate("/auth")} size="lg" className="w-full">
+            Get Started
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const renderCurrentView = () => {
     switch (currentView) {
