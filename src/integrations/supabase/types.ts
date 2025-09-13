@@ -14,6 +14,172 @@ export type Database = {
   }
   public: {
     Tables: {
+      babies: {
+        Row: {
+          created_at: string
+          date_of_birth: string
+          id: string
+          known_allergies: string[] | null
+          name: string
+          pediatrician_contact: string | null
+          suspected_allergies: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date_of_birth: string
+          id?: string
+          known_allergies?: string[] | null
+          name: string
+          pediatrician_contact?: string | null
+          suspected_allergies?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date_of_birth?: string
+          id?: string
+          known_allergies?: string[] | null
+          name?: string
+          pediatrician_contact?: string | null
+          suspected_allergies?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      exposures: {
+        Row: {
+          allergen: string
+          baby_id: string
+          created_at: string
+          exposure_date: string
+          id: string
+          notes: string | null
+          reaction: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          allergen: string
+          baby_id: string
+          created_at?: string
+          exposure_date: string
+          id?: string
+          notes?: string | null
+          reaction?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          allergen?: string
+          baby_id?: string
+          created_at?: string
+          exposure_date?: string
+          id?: string
+          notes?: string | null
+          reaction?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exposures_baby_id_fkey"
+            columns: ["baby_id"]
+            isOneToOne: false
+            referencedRelation: "babies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      foods: {
+        Row: {
+          allergens: string[] | null
+          category: string
+          choking_form_notes: string | null
+          created_at: string
+          id: string
+          iron_mg_per_100g: number | null
+          name: string
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          allergens?: string[] | null
+          category: string
+          choking_form_notes?: string | null
+          created_at?: string
+          id: string
+          iron_mg_per_100g?: number | null
+          name: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          allergens?: string[] | null
+          category?: string
+          choking_form_notes?: string | null
+          created_at?: string
+          id?: string
+          iron_mg_per_100g?: number | null
+          name?: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      meals: {
+        Row: {
+          baby_id: string
+          created_at: string
+          id: string
+          items: Json
+          meal_date: string
+          meal_time: string
+          meal_type: string | null
+          notes: string | null
+          reactions: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          baby_id: string
+          created_at?: string
+          id?: string
+          items?: Json
+          meal_date: string
+          meal_time: string
+          meal_type?: string | null
+          notes?: string | null
+          reactions?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          baby_id?: string
+          created_at?: string
+          id?: string
+          items?: Json
+          meal_date?: string
+          meal_time?: string
+          meal_type?: string | null
+          notes?: string | null
+          reactions?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meals_baby_id_fkey"
+            columns: ["baby_id"]
+            isOneToOne: false
+            referencedRelation: "babies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -41,6 +207,57 @@ export type Database = {
           phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      rules: {
+        Row: {
+          age_max_months: number
+          age_min_months: number
+          created_at: string
+          direct_quote: string
+          id: string
+          last_verified_at: string
+          published_at: string
+          publisher: string
+          rule_key: string
+          severity: string
+          short_text: string
+          tags: string[] | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          age_max_months?: number
+          age_min_months?: number
+          created_at?: string
+          direct_quote: string
+          id?: string
+          last_verified_at: string
+          published_at: string
+          publisher: string
+          rule_key: string
+          severity?: string
+          short_text: string
+          tags?: string[] | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          age_max_months?: number
+          age_min_months?: number
+          created_at?: string
+          direct_quote?: string
+          id?: string
+          last_verified_at?: string
+          published_at?: string
+          publisher?: string
+          rule_key?: string
+          severity?: string
+          short_text?: string
+          tags?: string[] | null
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }

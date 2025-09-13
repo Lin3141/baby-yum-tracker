@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Calendar } from "@/components/Calendar";
 import { Analytics } from "@/components/Analytics";
 import { Navigation } from "@/components/Navigation";
+import { SafetyBanner } from "@/components/SafetyBanner";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
@@ -12,7 +13,7 @@ const mockBabies = [
 ];
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<"calendar" | "analytics" | "babies" | "settings">("calendar");
+  const [currentView, setCurrentView] = useState<"home" | "log-meal" | "allergens" | "insights" | "foods" | "babies" | "settings">("home");
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -38,8 +39,8 @@ const Index = () => {
       <div className="min-h-screen gradient-soft flex items-center justify-center p-6">
         <div className="text-center space-y-6 max-w-md mx-auto">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold gradient-text">Baby Yum Tracker</h1>
-            <p className="text-muted-foreground">Track your baby's solid food journey with ease</p>
+            <h1 className="text-3xl font-bold gradient-text">Baby Bites</h1>
+            <p className="text-muted-foreground">Smart Meal & Safety Checker for your baby's feeding journey</p>
           </div>
           <Button onClick={() => navigate("/auth")} size="lg" className="w-full">
             Get Started
@@ -51,10 +52,31 @@ const Index = () => {
 
   const renderCurrentView = () => {
     switch (currentView) {
-      case "calendar":
+      case "home":
         return <Calendar />;
-      case "analytics":
+      case "log-meal":
+        return (
+          <div className="p-6 max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6">Log Meal</h1>
+            <p className="text-muted-foreground">Meal logging features coming soon...</p>
+          </div>
+        );
+      case "allergens":
+        return (
+          <div className="p-6 max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6">Allergen Tracker</h1>
+            <p className="text-muted-foreground">Allergen tracking features coming soon...</p>
+          </div>
+        );
+      case "insights":
         return <Analytics babies={mockBabies} />;
+      case "foods":
+        return (
+          <div className="p-6 max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6">Foods Library</h1>
+            <p className="text-muted-foreground">Foods library features coming soon...</p>
+          </div>
+        );
       case "babies":
         return (
           <div className="p-6 max-w-4xl mx-auto">
@@ -76,6 +98,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen gradient-soft">
+      <SafetyBanner />
       <Navigation currentView={currentView} onViewChange={setCurrentView} />
       {renderCurrentView()}
     </div>

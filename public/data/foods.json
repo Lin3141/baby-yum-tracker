@@ -1,0 +1,121 @@
+[
+  {
+    "id": "peanut_butter",
+    "name": "Peanut butter",
+    "category": "protein",
+    "allergens": ["peanut"],
+    "choking_form_notes": "Use a thin smear; never by spoonful for infants.",
+    "iron_mg_per_100g": 1.87,
+    "tags": ["allergen"]
+  },
+  {
+    "id": "scrambled_egg",
+    "name": "Scrambled egg",
+    "category": "protein",
+    "allergens": ["egg"],
+    "iron_mg_per_100g": 1.75,
+    "tags": ["allergen"]
+  },
+  {
+    "id": "salmon",
+    "name": "Salmon",
+    "category": "protein",
+    "allergens": ["fish"],
+    "iron_mg_per_100g": 0.80,
+    "tags": ["low-mercury", "omega-3"]
+  },
+  {
+    "id": "honey",
+    "name": "Honey",
+    "category": "sweetener",
+    "allergens": [],
+    "tags": ["sweetener", "botulism-risk"]
+  },
+  {
+    "id": "grapes",
+    "name": "Grapes",
+    "category": "fruit",
+    "allergens": [],
+    "choking_form_notes": "Quarter lengthwise for young children.",
+    "tags": ["choking-hazard"]
+  },
+  {
+    "id": "iron_oat_cereal",
+    "name": "Iron-fortified oat cereal",
+    "category": "grain",
+    "allergens": [],
+    "iron_mg_per_100g": 45.0,
+    "tags": ["iron-fortified"]
+  },
+  {
+    "id": "apple_juice",
+    "name": "Apple juice",
+    "category": "drink",
+    "allergens": [],
+    "tags": ["juice", "added-sugar"]
+  },
+  {
+    "id": "avocado",
+    "name": "Avocado",
+    "category": "fruit",
+    "allergens": [],
+    "iron_mg_per_100g": 0.55,
+    "tags": ["healthy-fat"]
+  },
+  {
+    "id": "banana",
+    "name": "Banana",
+    "category": "fruit",
+    "allergens": [],
+    "iron_mg_per_100g": 0.26,
+    "tags": []
+  },
+  {
+    "id": "sweet_potato",
+    "name": "Sweet potato",
+    "category": "vegetable",
+    "allergens": [],
+    "iron_mg_per_100g": 0.61,
+    "tags": ["orange-vegetable"]
+  },
+  {
+    "id": "broccoli",
+    "name": "Broccoli",
+    "category": "vegetable",
+    "allergens": [],
+    "iron_mg_per_100g": 0.73,
+    "tags": ["green-vegetable"]
+  },
+  {
+    "id": "whole_milk",
+    "name": "Whole milk",
+    "category": "dairy",
+    "allergens": ["milk"],
+    "tags": ["allergen"]
+  },
+  {
+    "id": "ground_beef",
+    "name": "Ground beef",
+    "category": "protein",
+    "allergens": [],
+    "iron_mg_per_100g": 2.30,
+    "tags": ["heme-iron"]
+  },
+  {
+    "id": "cheerios",
+    "name": "Cheerios",
+    "category": "grain",
+    "allergens": ["wheat"],
+    "iron_mg_per_100g": 18.0,
+    "tags": ["iron-fortified", "allergen"]
+  },
+  {
+    "id": "strawberries",
+    "name": "Strawberries",
+    "category": "fruit",
+    "allergens": [],
+    "choking_form_notes": "Cut into small pieces for young toddlers.",
+    "iron_mg_per_100g": 0.41,
+    "tags": []
+  }
+]

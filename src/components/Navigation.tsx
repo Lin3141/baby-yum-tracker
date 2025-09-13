@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Calendar, BarChart3, Baby, Settings, LogOut, User } from "lucide-react";
+import { Calendar, PlusCircle, Target, TrendingUp, Baby, Settings, LogOut, User, BookOpen } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 
 interface NavigationProps {
-  currentView: "calendar" | "analytics" | "babies" | "settings";
-  onViewChange: (view: "calendar" | "analytics" | "babies" | "settings") => void;
+  currentView: "home" | "log-meal" | "allergens" | "insights" | "foods" | "babies" | "settings";
+  onViewChange: (view: "home" | "log-meal" | "allergens" | "insights" | "foods" | "babies" | "settings") => void;
 }
 
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
@@ -29,8 +29,11 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
   };
 
   const navItems = [
-    { id: "calendar" as const, label: "Calendar", icon: Calendar },
-    { id: "analytics" as const, label: "Analytics", icon: BarChart3 },
+    { id: "home" as const, label: "Home", icon: Calendar },
+    { id: "log-meal" as const, label: "Log Meal", icon: PlusCircle },
+    { id: "allergens" as const, label: "Allergens", icon: Target },
+    { id: "insights" as const, label: "Insights", icon: TrendingUp },
+    { id: "foods" as const, label: "Foods", icon: BookOpen },
     { id: "babies" as const, label: "Babies", icon: Baby },
     { id: "settings" as const, label: "Settings", icon: Settings },
   ];
