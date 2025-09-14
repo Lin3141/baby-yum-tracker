@@ -4,6 +4,8 @@ import { Calendar } from "@/components/Calendar";
 import { Analytics } from "@/components/Analytics";
 import { Navigation } from "@/components/Navigation";
 import { SafetyBanner } from "@/components/SafetyBanner";
+import { AllergenTracker } from "@/pages/AllergenTracker";
+import { FoodLibrary } from "@/pages/FoodLibrary";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
@@ -62,21 +64,11 @@ const Index = () => {
           </div>
         );
       case "allergens":
-        return (
-          <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Allergen Tracker</h1>
-            <p className="text-muted-foreground">Allergen tracking features coming soon...</p>
-          </div>
-        );
+        return <AllergenTracker />;
       case "insights":
         return <Analytics babies={mockBabies} />;
       case "foods":
-        return (
-          <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Foods Library</h1>
-            <p className="text-muted-foreground">Foods library features coming soon...</p>
-          </div>
-        );
+        return <FoodLibrary />;
       case "babies":
         return (
           <div className="p-6 max-w-4xl mx-auto">
