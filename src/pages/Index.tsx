@@ -19,11 +19,8 @@ const Index = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate("/auth");
-    }
-  }, [user, loading, navigate]);
+  // Allow access to app without authentication (guest mode)
+  // Data won't be saved unless user is authenticated
 
   if (loading) {
     return (
@@ -31,22 +28,6 @@ const Index = () => {
         <div className="text-center space-y-4">
           <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen gradient-soft flex items-center justify-center p-6">
-        <div className="text-center space-y-6 max-w-md mx-auto">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold gradient-text">Baby Bites</h1>
-            <p className="text-muted-foreground">Smart Meal & Safety Checker for your baby's feeding journey</p>
-          </div>
-          <Button onClick={() => navigate("/auth")} size="lg" className="w-full">
-            Get Started
-          </Button>
         </div>
       </div>
     );

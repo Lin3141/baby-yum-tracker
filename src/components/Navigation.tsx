@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Calendar, PlusCircle, Target, TrendingUp, Baby, Settings, LogOut, User, BookOpen } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, PlusCircle, Target, TrendingUp, Baby, Settings, LogOut, User, BookOpen, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 import { BabySwitcher } from "./BabySwitcher";
 import { LogMealModal } from "./LogMealModal";
 
@@ -13,6 +15,7 @@ interface NavigationProps {
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
@@ -73,21 +76,43 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
         </div>
         
         <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <User className="h-4 w-4" />
-            <span className="hidden sm:inline">
-              {user?.email || user?.phone || 'User'}
-            </span>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleSignOut}
-            className="flex items-center space-x-2"
-          >
-            <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline">Sign Out</span>
-          </Button>
+          {user ? (
+            <>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">
+                  {user?.email || user?.phone || 'User'}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="flex items-center space-x-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center space-x-2">
+                <Badge variant="secondary" className="flex items-center space-x-1">
+                  <AlertTriangle className="h-3 w-3" />
+                  <span className="text-xs">Guest Mode - Data Not Saved</span>
+                </Badge>
+              </div>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => navigate("/auth")}
+                className="flex items-center space-x-2"
+              >
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">Sign Up to Save</span>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </nav>
