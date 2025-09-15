@@ -1,7 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { TrendingUp, Utensils, Plus, AlertTriangle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useBabyStore } from "@/store/useBabyStore";
+import { useEffect } from "react";
 
 interface Baby {
   id: string;
@@ -20,46 +22,99 @@ interface AnalyticsProps {
   selectedWeek?: string;
 }
 
-const mockFoodData: FoodFrequency[] = [
-  { name: "Banana", count: 12, lastIntroduced: "2024-01-01" },
-  { name: "Sweet Potato", count: 8, lastIntroduced: "2024-01-03" },
-  { name: "Rice Cereal", count: 15, lastIntroduced: "2024-01-01" },
-  { name: "Peas", count: 6, lastIntroduced: "2024-01-05" },
-  { name: "Avocado", count: 4, lastIntroduced: "2024-01-10" },
-  { name: "Carrots", count: 7, lastIntroduced: "2024-01-07" },
-];
-
-const mockWeeklyData = [
-  { day: "Mon", meals: 3, newFoods: 1 },
-  { day: "Tue", meals: 3, newFoods: 0 },
-  { day: "Wed", meals: 2, newFoods: 2 },
-  { day: "Thu", meals: 3, newFoods: 0 },
-  { day: "Fri", meals: 3, newFoods: 1 },
-  { day: "Sat", meals: 3, newFoods: 0 },
-  { day: "Sun", meals: 2, newFoods: 0 },
-];
-
 const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', 'hsl(var(--muted))', 'hsl(var(--baby-1))', 'hsl(var(--baby-2))'];
 
 export function Analytics({ babies }: AnalyticsProps) {
-  const totalMeals = mockWeeklyData.reduce((sum, day) => sum + day.meals, 0);
-  const totalNewFoods = mockWeeklyData.reduce((sum, day) => sum + day.newFoods, 0);
-  
-  const lessFrequentFoods = mockFoodData
-    .filter(food => food.count < 5)
-    .sort((a, b) => a.count - b.count);
+  const { selectedBaby, meals, foods, fetchMeals, fetchFoods } = useBabyStore();
 
-  const pieData = mockFoodData.slice(0, 6).map(food => ({
+  useEffect(() => {
+    fetchFoods();
+    if (selectedBaby) {
+      fetchMeals(selectedBaby.id);
+    }
+  }, [fetchFoods, fetchMeals, selectedBaby]);
+
+  if (!selectedBaby) {
+    return (
+      <div className="p-6 max-w-4xl mx-auto">
+        <Card>
+          <CardContent className="p-6 text-center">
+            <p className="text-muted-foreground">Please select a baby to view insights.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Filter meals for selected baby
+  const babyMeals = meals.filter(meal => meal.baby_id === selectedBaby.id);
+  
+  // Calculate last 7 days data
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    return date.toISOString().split('T')[0];
+  }).reverse();
+
+  const weeklyData = last7Days.map(date => {
+    const dayMeals = babyMeals.filter(meal => meal.meal_date === date);
+    const uniqueFoods = new Set();
+    dayMeals.forEach(meal => {
+      meal.items.forEach(item => {
+        if (item.food_id) uniqueFoods.add(item.food_id);
+      });
+    });
+    
+    return {
+      day: new Date(date).toLocaleDateString('en', { weekday: 'short' }),
+      meals: dayMeals.length,
+      newFoods: uniqueFoods.size,
+    };
+  });
+
+  // Calculate food frequency
+  const foodCounts = new Map<string, number>();
+  babyMeals.forEach(meal => {
+    meal.items.forEach(item => {
+      if (item.food_id) {
+        foodCounts.set(item.food_id, (foodCounts.get(item.food_id) || 0) + 1);
+      }
+    });
+  });
+
+  const foodFrequencyData = Array.from(foodCounts.entries())
+    .map(([foodId, count]) => {
+      const food = foods.find(f => f.id === foodId);
+      return {
+        name: food?.name || foodId,
+        count,
+        lastIntroduced: babyMeals
+          .filter(meal => meal.items.some(item => item.food_id === foodId))
+          .sort((a, b) => new Date(a.meal_date).getTime() - new Date(b.meal_date).getTime())[0]?.meal_date || ''
+      };
+    })
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
+  // Calculate basic statistics
+  const totalMeals = weeklyData.reduce((sum, day) => sum + day.meals, 0);
+  const totalNewFoods = weeklyData.reduce((sum, day) => sum + day.newFoods, 0);
+  const lessFrequentFoods = foodFrequencyData.filter(food => food.count < 5);
+  
+  // Prepare pie chart data
+  const pieData = foodFrequencyData.map(food => ({
     name: food.name,
     value: food.count
   }));
 
+  const mostPopularFood = foodFrequencyData[0]?.name || "None yet";
+  const totalReactions = babyMeals.filter(meal => meal.reactions && meal.reactions.length > 0).length;
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Weekly Analytics</h1>
+        <h1 className="text-3xl font-bold">{selectedBaby.name}'s Insights</h1>
         <Badge variant="outline" className="text-sm">
-          Week of Jan 15-21, 2024
+          Last 7 days
         </Badge>
       </div>
 
@@ -96,8 +151,8 @@ export function Analytics({ babies }: AnalyticsProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">{mockFoodData[0]?.name}</div>
-            <p className="text-xs text-muted-foreground">{mockFoodData[0]?.count} times</p>
+            <div className="text-2xl font-bold text-primary">{mostPopularFood}</div>
+            <p className="text-xs text-muted-foreground">{foodFrequencyData[0]?.count || 0} times</p>
           </CardContent>
         </Card>
 
@@ -108,7 +163,7 @@ export function Analytics({ babies }: AnalyticsProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">2</div>
+            <div className="text-2xl font-bold text-destructive">{totalReactions}</div>
             <p className="text-xs text-muted-foreground">This week</p>
           </CardContent>
         </Card>
@@ -122,7 +177,7 @@ export function Analytics({ babies }: AnalyticsProps) {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={mockWeeklyData}>
+              <BarChart data={weeklyData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" />
                 <YAxis />
@@ -180,10 +235,12 @@ export function Analytics({ babies }: AnalyticsProps) {
                 {lessFrequentFoods.map(food => (
                   <Badge key={food.name} variant="outline" className="flex items-center gap-2">
                     {food.name}
-                    <Progress value={(food.count / 10) * 100} className="w-12 h-1" />
                     <span className="text-xs">{food.count}x</span>
                   </Badge>
                 ))}
+                {lessFrequentFoods.length === 0 && (
+                  <p className="text-sm text-muted-foreground">All foods are being offered regularly!</p>
+                )}
               </div>
             </div>
 

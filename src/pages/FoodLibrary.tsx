@@ -36,7 +36,24 @@ export function FoodLibrary() {
   const [selectedFood, setSelectedFood] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
-  const { foods, fetchFoods, loading } = useBabyStore();
+  const { selectedBaby, foods, meals, fetchFoods, fetchMeals, loading } = useBabyStore();
+
+  useEffect(() => {
+    fetchFoods();
+    if (selectedBaby) {
+      fetchMeals(selectedBaby.id);
+    }
+  }, [fetchFoods, fetchMeals, selectedBaby]);
+
+  // Get foods tried by selected baby
+  const triedFoods = selectedBaby ? 
+    meals
+      .filter(meal => meal.baby_id === selectedBaby.id)
+      .flatMap(meal => meal.items)
+      .filter(item => item.food_id)
+      .map(item => item.food_id!)
+      .filter((value, index, self) => self.indexOf(value) === index)
+    : [];
 
   useEffect(() => {
     fetchFoods();
@@ -107,10 +124,13 @@ export function FoodLibrary() {
         <div>
           <h1 className="text-3xl font-bold gradient-text flex items-center gap-2">
             <BookOpen className="h-8 w-8 text-primary" />
-            Foods Library
+            {selectedBaby?.name ? `${selectedBaby.name}'s Food History` : 'Foods Library'}
           </h1>
           <p className="text-muted-foreground mt-2">
-            Comprehensive database of baby-friendly foods with safety information and nutrition data
+            {selectedBaby 
+              ? `Explore foods ${selectedBaby.name} has tried with safety information and nutrition data`
+              : 'Comprehensive database of baby-friendly foods with safety information and nutrition data'
+            }
           </p>
         </div>
       </div>

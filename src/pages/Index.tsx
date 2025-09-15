@@ -15,7 +15,7 @@ const mockBabies = [
 ];
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<"home" | "log-meal" | "allergens" | "insights" | "foods" | "babies" | "settings">("home");
+  const [currentView, setCurrentView] = useState<"home" | "allergens" | "insights" | "foods" | "babies" | "settings">("home");
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -56,13 +56,6 @@ const Index = () => {
     switch (currentView) {
       case "home":
         return <Calendar />;
-      case "log-meal":
-        return (
-          <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Log Meal</h1>
-            <p className="text-muted-foreground">Meal logging features coming soon...</p>
-          </div>
-        );
       case "allergens":
         return <AllergenTracker />;
       case "insights":

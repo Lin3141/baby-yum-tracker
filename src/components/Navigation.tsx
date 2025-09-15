@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar, PlusCircle, Target, TrendingUp, Baby, Settings, LogOut, User, BookOpen } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { BabySwitcher } from "./BabySwitcher";
+import { LogMealModal } from "./LogMealModal";
 
 interface NavigationProps {
-  currentView: "home" | "log-meal" | "allergens" | "insights" | "foods" | "babies" | "settings";
-  onViewChange: (view: "home" | "log-meal" | "allergens" | "insights" | "foods" | "babies" | "settings") => void;
+  currentView: "home" | "allergens" | "insights" | "foods" | "babies" | "settings";
+  onViewChange: (view: "home" | "allergens" | "insights" | "foods" | "babies" | "settings") => void;
 }
 
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
@@ -30,7 +32,6 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
 
   const navItems = [
     { id: "home" as const, label: "Home", icon: Calendar },
-    { id: "log-meal" as const, label: "Log Meal", icon: PlusCircle },
     { id: "allergens" as const, label: "Allergens", icon: Target },
     { id: "insights" as const, label: "Insights", icon: TrendingUp },
     { id: "foods" as const, label: "Foods", icon: BookOpen },
@@ -41,18 +42,34 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
   return (
     <nav className="glass-panel border-soft p-4 m-4 rounded-lg">
       <div className="flex justify-between items-center">
-        <div className="flex space-x-2">
-          {navItems.map((item) => (
-            <Button
-              key={item.id}
-              variant={currentView === item.id ? "default" : "ghost"}
-              onClick={() => onViewChange(item.id)}
-              className="flex items-center space-x-2 transition-all duration-200"
-            >
-              <item.icon className="h-4 w-4" />
-              <span className="hidden sm:inline">{item.label}</span>
-            </Button>
-          ))}
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <BabySwitcher />
+            <LogMealModal>
+              <Button 
+                variant="default" 
+                size="sm"
+                className="flex items-center space-x-2"
+              >
+                <PlusCircle className="h-4 w-4" />
+                <span className="hidden sm:inline">Log Meal</span>
+              </Button>
+            </LogMealModal>
+          </div>
+          
+          <div className="flex space-x-2">
+            {navItems.map((item) => (
+              <Button
+                key={item.id}
+                variant={currentView === item.id ? "default" : "ghost"}
+                onClick={() => onViewChange(item.id)}
+                className="flex items-center space-x-2 transition-all duration-200"
+              >
+                <item.icon className="h-4 w-4" />
+                <span className="hidden sm:inline">{item.label}</span>
+              </Button>
+            ))}
+          </div>
         </div>
         
         <div className="flex items-center space-x-2">
