@@ -8,34 +8,37 @@ All colors MUST be HSL for proper theming.
 
 @layer base {
   :root {
-    /* Baby-friendly base colors */
-    --background: 0 0% 99%;
-    --foreground: 215 25% 27%;
+    /* Warm, parent-friendly base colors */
+    --background: 35 100% 98%;
+    --foreground: 25 30% 25%;
 
-    /* Card system */
+    /* Card system with warmth */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 25 30% 25%;
 
     /* Popover system */
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover-foreground: 25 30% 25%;
 
-    /* Primary - Soft mint green */
-    --primary: 155 41% 49%;
+    /* Primary - Warm sage green */
+    --primary: 120 25% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 155 41% 95%;
+    --primary-soft: 120 35% 95%;
+    --primary-hover: 120 25% 40%;
 
-    /* Secondary - Soft coral */
-    --secondary: 15 86% 85%;
-    --secondary-foreground: 215 25% 27%;
+    /* Secondary - Warm peach */
+    --secondary: 25 75% 88%;
+    --secondary-foreground: 25 30% 25%;
+    --secondary-hover: 25 75% 83%;
 
-    /* Muted tones */
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted tones with warmth */
+    --muted: 35 20% 95%;
+    --muted-foreground: 25 15% 55%;
 
-    /* Accent - Lavender */
-    --accent: 269 40% 88%;
-    --accent-foreground: 215 25% 27%;
+    /* Accent - Soft lavender */
+    --accent: 280 30% 85%;
+    --accent-foreground: 25 30% 25%;
+    --accent-hover: 280 30% 80%;
 
     /* Destructive */
     --destructive: 0 72% 51%;
@@ -46,22 +49,24 @@ All colors MUST be HSL for proper theming.
     --input: 220 13% 91%;
     --ring: 155 41% 49%;
 
-    /* Baby profile colors */
-    --baby-1: 155 41% 49%;    /* Mint green */
-    --baby-2: 340 82% 75%;    /* Soft pink */
-    --baby-3: 220 100% 80%;   /* Soft blue */
-    --baby-4: 45 93% 76%;     /* Soft yellow */
-    --baby-5: 269 40% 78%;    /* Lavender */
+    /* Baby profile colors - warmer palette */
+    --baby-1: 170 30% 55%;    /* Sage green */
+    --baby-2: 350 60% 70%;    /* Warm pink */
+    --baby-3: 210 50% 65%;    /* Warm blue */
+    --baby-4: 45 70% 70%;     /* Warm yellow */
+    --baby-5: 280 30% 70%;    /* Warm lavender */
 
-    /* Meal colors */
-    --breakfast: 45 93% 76%;  /* Morning yellow */
-    --lunch: 155 41% 65%;     /* Midday green */
-    --dinner: 269 40% 78%;    /* Evening purple */
+    /* Meal colors - warmer tones */
+    --breakfast: 50 60% 75%;  /* Warm morning yellow */
+    --lunch: 140 30% 60%;     /* Warm midday green */
+    --dinner: 260 25% 65%;    /* Warm evening purple */
+    --snack: 25 50% 75%;      /* Warm peach */
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(155 41% 49%), hsl(155 41% 65%));
-    --gradient-soft: linear-gradient(180deg, hsl(0 0% 100%), hsl(155 41% 98%));
-    --gradient-baby: linear-gradient(45deg, hsl(155 41% 95%), hsl(340 82% 95%));
+    /* Gradients - warmer, softer */
+    --gradient-primary: linear-gradient(135deg, hsl(120 25% 45%), hsl(140 30% 60%));
+    --gradient-soft: linear-gradient(180deg, hsl(35 100% 98%), hsl(120 35% 97%));
+    --gradient-baby: linear-gradient(45deg, hsl(170 30% 95%), hsl(350 60% 95%));
+    --gradient-warm: linear-gradient(135deg, hsl(35 50% 95%), hsl(45 60% 92%));
 
     /* Shadows */
     --shadow-soft: 0 2px 8px -2px hsl(155 41% 49% / 0.1);
@@ -170,6 +175,10 @@ All colors MUST be HSL for proper theming.
   
   .gradient-baby {
     background: var(--gradient-baby);
+  }
+  
+  .gradient-warm {
+    background: var(--gradient-warm);
   }
   
   .glass-panel {

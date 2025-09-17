@@ -8,8 +8,8 @@ import { BabySwitcher } from "./BabySwitcher";
 import { LogMealModal } from "./LogMealModal";
 
 interface NavigationProps {
-  currentView: "home" | "allergens" | "insights" | "foods" | "babies" | "settings";
-  onViewChange: (view: "home" | "allergens" | "insights" | "foods" | "babies" | "settings") => void;
+  currentView: "home" | "insights" | "foods" | "settings";
+  onViewChange: (view: "home" | "insights" | "foods" | "settings") => void;
 }
 
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
@@ -35,10 +35,8 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
 
   const navItems = [
     { id: "home" as const, label: "Home", icon: Calendar },
-    { id: "allergens" as const, label: "Allergens", icon: Target },
-    { id: "insights" as const, label: "Insights", icon: TrendingUp },
     { id: "foods" as const, label: "Foods", icon: BookOpen },
-    { id: "babies" as const, label: "Babies", icon: Baby },
+    { id: "insights" as const, label: "Insights", icon: TrendingUp },
     { id: "settings" as const, label: "Settings", icon: Settings },
   ];
 

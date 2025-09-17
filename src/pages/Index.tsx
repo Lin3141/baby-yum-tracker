@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar } from "@/components/Calendar";
+import { Dashboard } from "@/components/Dashboard";
 import { Analytics } from "@/components/Analytics";
 import { Navigation } from "@/components/Navigation";
 import { SafetyBanner } from "@/components/SafetyBanner";
@@ -15,7 +15,7 @@ const mockBabies = [
 ];
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<"home" | "allergens" | "insights" | "foods" | "babies" | "settings">("home");
+  const [currentView, setCurrentView] = useState<"home" | "insights" | "foods" | "settings">("home");
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -36,29 +36,36 @@ const Index = () => {
   const renderCurrentView = () => {
     switch (currentView) {
       case "home":
-        return <Calendar />;
-      case "allergens":
-        return <AllergenTracker />;
+        return <Dashboard />;
       case "insights":
         return <Analytics babies={mockBabies} />;
       case "foods":
         return <FoodLibrary />;
-      case "babies":
-        return (
-          <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Manage Babies</h1>
-            <p className="text-muted-foreground">Baby management features coming soon...</p>
-          </div>
-        );
       case "settings":
         return (
           <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Settings</h1>
-            <p className="text-muted-foreground">Settings features coming soon...</p>
+            <div className="space-y-8">
+              <div>
+                <h1 className="text-3xl font-bold mb-2">Settings</h1>
+                <p className="text-muted-foreground">Manage your account and babies</p>
+              </div>
+              
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-xl font-semibold mb-4">Manage Babies</h2>
+                  <AllergenTracker />
+                </div>
+                
+                <div>
+                  <h2 className="text-xl font-semibold mb-4">Account Settings</h2>
+                  <p className="text-muted-foreground">Account management features coming soon...</p>
+                </div>
+              </div>
+            </div>
           </div>
         );
       default:
-        return <Calendar />;
+        return <Dashboard />;
     }
   };
 
