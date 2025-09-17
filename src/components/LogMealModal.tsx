@@ -73,12 +73,28 @@ export function LogMealModal({ children }: LogMealModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!selectedBaby || !mealType || selectedFoods.length === 0) {
+    if (!mealType || selectedFoods.length === 0) {
       toast({
-        title: "Missing information",
-        description: "Please fill in all required fields.",
+        title: "Missing information", 
+        description: "Please fill in meal type and add at least one food.",
         variant: "destructive",
       });
+      return;
+    }
+
+    if (!selectedBaby) {
+      toast({
+        title: "Guest Mode",
+        description: "Sign up to save your meals permanently.",
+        variant: "default",
+      });
+      // In guest mode, we'll still allow logging but won't save to database
+      setMealType("");
+      setSelectedFoods([]);
+      setReactions([]);
+      setNotes("");
+      setFoodSearch("");
+      setOpen(false);
       return;
     }
 
@@ -261,7 +277,7 @@ export function LogMealModal({ children }: LogMealModalProps) {
             </Button>
             <Button 
               type="submit" 
-              disabled={!selectedBaby || !mealType || selectedFoods.length === 0}
+              disabled={!mealType || selectedFoods.length === 0}
             >
               Log Meal
             </Button>
