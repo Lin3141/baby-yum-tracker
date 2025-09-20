@@ -73,7 +73,10 @@ export function LogMealModal({ children }: LogMealModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log("Form submission:", { mealType, selectedFoods, reactions });
+    
     if (!mealType || selectedFoods.length === 0) {
+      console.log("Validation failed:", { mealType, selectedFoodsLength: selectedFoods.length });
       toast({
         title: "Missing information", 
         description: "Please fill in meal type and add at least one food.",
